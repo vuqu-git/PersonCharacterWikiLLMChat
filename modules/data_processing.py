@@ -13,25 +13,27 @@ import config
 logger = logging.getLogger(__name__)
 
 def split_profile_data(profile_data: Dict[str, Any]) -> List:
+    # result of extract_linkedin_profile call is of type: Dict[str, Any]
     """Splits the LinkedIn profile JSON data into nodes.
-    
+
     Args:
         profile_data: LinkedIn profile data dictionary.
-        
+
     Returns:
         List of document nodes.
     """
     try:
-        # Convert the profile data to a JSON string
-        profile_json = json.dumps(profile_data)
-
+        # Converts a Python dictionary into a JSON-formatted string
+        # The string format makes it easier to split, chunk, or embed the profile data into document nodes for further processing.
+        profile_json = json.dumps(profile_data)     # JSON-formatted string (str type) representation of that dictionary
+        # profile_json = '{"name": "John Doe", "age": 30, "skills": ["Python", "Java"], "is_active": true}'
         # Create a Document object from the JSON string
         document = Document(text=profile_json)
-
         # Split the document into nodes using SentenceSplitter
         splitter = SentenceSplitter(chunk_size=config.CHUNK_SIZE)
+        # in LlamaIndex chunks are called nodes
         nodes = splitter.get_nodes_from_documents([document])
-        
+
         logger.info(f"Created {len(nodes)} nodes from profile data")
         return nodes
     except Exception as e:
@@ -40,24 +42,23 @@ def split_profile_data(profile_data: Dict[str, Any]) -> List:
 
 def create_vector_database(nodes: List) -> Optional[VectorStoreIndex]:
     """Stores the document chunks (nodes) in a vector database.
-    
+
     Args:
         nodes: List of document nodes to be indexed.
-        
+
     Returns:
         VectorStoreIndex or None if indexing fails.
     """
     try:
         # Get the embedding model
         embedding_model = create_watsonx_embedding()
-
         # Create a VectorStoreIndex from the nodes
         index = VectorStoreIndex(
             nodes=nodes,
             embed_model=embedding_model,
-            show_progress=False
+            show_progress=True
         )
-        
+
         logger.info("Vector database created successfully")
         return index
     except Exception as e:
@@ -66,10 +67,10 @@ def create_vector_database(nodes: List) -> Optional[VectorStoreIndex]:
 
 def verify_embeddings(index: VectorStoreIndex) -> bool:
     """Verify that all nodes have been properly embedded.
-    
+
     Args:
         index: VectorStoreIndex to verify.
-        
+
     Returns:
         True if all embeddings are valid, False otherwise.
     """
@@ -77,13 +78,14 @@ def verify_embeddings(index: VectorStoreIndex) -> bool:
         vector_store = index._storage_context.vector_store
         node_ids = list(index.index_struct.nodes_dict.keys())
         missing_embeddings = False
-
         for node_id in node_ids:
             embedding = vector_store.get(node_id)
             if embedding is None:
                 logger.warning(f"Node ID {node_id} has a None embedding.")
                 missing_embeddings = True
-        
+            else:
+                logger.debug(f"Node ID {node_id} has a valid embedding.")
+
         if missing_embeddings:
             logger.warning("Some node embeddings are missing")
             return False
@@ -93,3 +95,4 @@ def verify_embeddings(index: VectorStoreIndex) -> bool:
     except Exception as e:
         logger.error(f"Error in verify_embeddings: {e}")
         return False
+

@@ -6,7 +6,7 @@ WATSONX_PROJECT_ID = "skills-network"
 
 # Model settings
 LLM_MODEL_ID = "ibm/granite-3-2-8b-instruct"
-EMBEDDING_MODEL_ID = "ibm/slate-125m-english-rtrvr"
+EMBEDDING_MODEL_ID = "ibm/slate-125m-english-rtrvr-v2"
 
 # ProxyCurl API settings
 PROXYCURL_API_KEY = ""  # Replace with your API key
@@ -15,7 +15,7 @@ PROXYCURL_API_KEY = ""  # Replace with your API key
 MOCK_DATA_URL = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/ZRe59Y_NJyn3hZgnF1iFYA/linkedin-profile-data.json"
 
 # Query settings
-SIMILARITY_TOP_K = 5
+SIMILARITY_TOP_K = 5    # Determines how many similar chunks to retrieve when answering queries. Increasing this could give more comprehensive but potentially noisier responses.
 TEMPERATURE = 0.0
 MAX_NEW_TOKENS = 500
 MIN_NEW_TOKENS = 1
@@ -23,7 +23,7 @@ TOP_K = 50
 TOP_P = 1
 
 # Node settings
-CHUNK_SIZE = 500
+CHUNK_SIZE = 500    # Controls how large each text chunk is when splitting the LinkedIn data. If you want more granular retrieval, you could reduce this (e.g., to 300).
 
 # LLM prompt templates
 INITIAL_FACTS_TEMPLATE = """
