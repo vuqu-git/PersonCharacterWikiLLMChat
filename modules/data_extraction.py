@@ -98,7 +98,7 @@ def extract_got_profile(
     """Extract Game of Thrones wiki page content using web scraping.
 
     Args:
-        wiki_url: The Fandom wiki URL to scrape (e.g., https://gameofthrones.fandom.com/wiki/Rhaenyra_Targaryen).
+        wiki_url: The Fandom wiki URL to scrape.
         mock: If True, loads mock data from a saved HTML file instead of scraping.
 
     Returns:
@@ -109,9 +109,16 @@ def extract_got_profile(
     try:
         if mock:
             logger.info("Using mock data from a saved HTML file...")
-            # Load from local HTML file
-            with open("mock_got_wiki.html", "r", encoding="utf-8") as f:
-                html_content = f.read()
+            # Load from LOCAL HTML file
+            mock_file_path = "mock_got_wiki.html"
+            try:
+                with open(mock_file_path, "r", encoding="utf-8") as f:
+                    html_content = f.read()
+                logger.info(f"Loaded mock HTML from {mock_file_path}")
+            except FileNotFoundError:
+                logger.error(f"Mock file not found: {mock_file_path}")
+                logger.info("Please save a wiki page HTML to 'mock_got_wiki.html' or disable mock mode")
+                return {}
         else:
             logger.info(f"Starting to scrape wiki page: {wiki_url}")
 

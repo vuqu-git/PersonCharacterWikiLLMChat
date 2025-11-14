@@ -122,30 +122,40 @@ def create_gradio_interface():
         gr.Markdown("# Game of Thrones Wiki Bot")
         gr.Markdown("Learn about Game of Thrones characters and chat about their stories")
 
+        gr.Markdown("""
+        ### How to use:
+        1. Go to the **Process Wiki Page** tab
+        2. Enter a Game of Thrones Fandom wiki URL or use mock data
+        3. Click **Process Wiki Page** to analyze the character
+        4. Go to the **Chat** tab to ask questions about the character
+        ---
+        """)
+
         with gr.Tab("Process Wiki Page"):
             with gr.Row():
-                with gr.Column():
+                with gr.Column(scale=4):  # Give more space to the URL column
                     wiki_url = gr.Textbox(
                         label="Fandom Wiki URL",
                         placeholder="https://gameofthrones.fandom.com/wiki/Character_Name",
-                        info="Enter a Game of Thrones Fandom wiki URL"
+                        info="Enter a Game of Thrones Fandom wiki URL",
+                        lines=1,
+                        max_lines=1
                     )
                     use_mock = gr.Checkbox(
                         label="Use Mock Data",
                         value=True,
-                        info="Load from saved HTML file instead of web scraping"
+                        info="Load from the saved default HTML file (no web scraping)"
                     )
 
                     gr.Markdown("### Example URLs:")
                     gr.Markdown("""
                     - https://gameofthrones.fandom.com/wiki/Jon_Snow
                     - https://gameofthrones.fandom.com/wiki/Daenerys_Targaryen
-                    - https://gameofthrones.fandom.com/wiki/Tyrion_Lannister
                     """)
 
                     process_btn = gr.Button("Process Wiki Page", variant="primary")
 
-                with gr.Column():
+                with gr.Column(scale=3):  # Results column takes less space
                     result_text = gr.Textbox(label="Initial Facts", lines=12)
                     session_id = gr.Textbox(label="Session ID", visible=False)
 
@@ -184,15 +194,6 @@ def create_gradio_interface():
             # Clear chat button
             clear_btn = gr.Button("Clear Chat")
             clear_btn.click(lambda: [], outputs=[chatbot])
-
-        gr.Markdown("""
-        ---
-        ### How to use:
-        1. Go to the **Process Wiki Page** tab
-        2. Enter a Game of Thrones Fandom wiki URL or use mock data
-        3. Click **Process Wiki Page** to analyze the character
-        4. Go to the **Chat** tab to ask questions about the character
-        """)
 
     return demo
 
