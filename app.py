@@ -8,7 +8,6 @@ import gradio as gr
 
 from modules.data_extraction import extract_linkedin_profile
 from modules.data_processing import split_profile_data, create_vector_database, verify_embeddings
-from modules.llm_interface import change_llm_model
 from modules.query_engine import generate_initial_facts, answer_user_query
 import config
 
@@ -73,22 +72,21 @@ active_indices = {}
 #             mock_session_id
 #         )
 
-def process_profile(linkedin_url, api_key, use_mock, selected_model):
+def process_profile(linkedin_url, api_key, use_mock):
     """Process a LinkedIn profile and generate initial facts.
 
     Args:
         linkedin_url: LinkedIn profile URL to process.
         api_key: ProxyCurl API key.
         use_mock: Whether to use mock data.
-        selected_model: LLM model to use.
 
     Returns:
         Initial facts about the profile and a session ID for this conversation.
     """
     try:
-        # Change LLM model if needed
-        if selected_model != config.LLM_MODEL_ID:
-            change_llm_model(selected_model)
+        # # Change LLM model if needed
+        # if selected_model != config.LLM_MODEL_ID:
+        #     change_llm_model(selected_model)
 
         # Use a default URL for mock data if none provided
         if use_mock and not linkedin_url:
@@ -197,11 +195,11 @@ def chat_with_profile(session_id, user_query, chat_history):
 
 def create_gradio_interface():
     """Create the Gradio interface for the Icebreaker Bot."""
-    # Define available LLM models
-    available_models = [
-        "ibm/granite-3-2-8b-instruct",
-        "meta-llama/llama-3-3-70b-instruct"
-    ]
+    # # Define available LLM models
+    # available_models = [
+    #     "ibm/granite-3-2-8b-instruct",
+    #     "meta-llama/llama-3-3-70b-instruct"
+    # ]
 
     with gr.Blocks(title="LinkedIn Icebreaker Bot") as demo:
         gr.Markdown("# LinkedIn Icebreaker Bot")
@@ -220,11 +218,11 @@ def create_gradio_interface():
                         type="password"
                     )
                     use_mock = gr.Checkbox(label="Use Mock Data", value=True)
-                    model_dropdown = gr.Dropdown(
-                        choices=available_models,
-                        label="Select LLM Model",
-                        value=config.LLM_MODEL_ID
-                    )
+                    # model_dropdown = gr.Dropdown(
+                    #     choices=available_models,
+                    #     label="Select LLM Model",
+                    #     value=config.LLM_MODEL_ID
+                    # )
                     process_btn = gr.Button("Process Profile")
 
                 with gr.Column():
@@ -233,7 +231,7 @@ def create_gradio_interface():
 
             process_btn.click(
                 fn=process_profile,
-                inputs=[linkedin_url, api_key, use_mock, model_dropdown],
+                inputs=[linkedin_url, api_key, use_mock],
                 outputs=[result_text, session_id]
             )
 

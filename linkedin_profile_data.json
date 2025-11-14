@@ -1,0 +1,309 @@
+{
+    "public_identifier": "leonkatsnelson",
+    "profile_pic_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/person/leonkatsnelson/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240920%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240920T152023Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=4a694c568ed2b7bbc7fbd04de4ac752e0061a93f9eacb3c8cb9288b1c894f96a",
+    "background_cover_image_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/person/leonkatsnelson/cover?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240920%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240920T152023Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=0bdfbeb5fe22d4fd010ceb4b54d372f3c0141668509e123eeb362be86f74ca94",
+    "first_name": "Leon",
+    "last_name": "Katsnelson",
+    "full_name": "Leon Katsnelson",
+    "follower_count": 9775,
+    "occupation": "CTO, IBM Skills Network. Helping leading organizations upskill employees in the latest technologies.",
+    "headline": "CTO, IBM Skills Network. Helping leading organizations upskill employees in the latest technologies.",
+    "summary": "I am a serial Intrepreneur with a number of very successful projects to my credit. My responsibility is to push frontiers of technology to create next generation products to help people develop skills in the area of AI, Data Science, Cloud-native Development, DevOps, Data Engineering Big Data, Data Analytics, Cybersecurity and. more. A technologist at heart, I focus on value creation using technology rather than technology itself. I am a relentless pursuer of product-market fit. As a Definite Optimist I believe in envisioning the future, and, since vision without a plan is a hallucination, I like to map out a path to achieving the goal. I am motivated by grand visions, hugely ambitious goals and barely possible challenges. The bigger the challenge the stronger the drive.\n\nI prefer small purpose-driven teams. I believe that building the right team is even more important than building the right product. I am honoured to have assembled and lead what I consider to be the best team in the industry. Young, smart, united by a common purpose the team has demonstrated their ability to overcome the toughest obstacles and go toe-to-toe with the best venture funded startups. \n\nI also advise a number of promising startups. It is something that I enjoy as it helps me apply my experience towards helping the next generation of entrepreneurs. \n\nSpecialties: AI, Database systems, Big Data, Data Science and Cloud Computing.",
+    "country": "CA",
+    "country_full_name": "Canada",
+    "city": "Markham",
+    "state": "Ontario",
+    "experiences": [
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 9,
+                "year": 2014
+            },
+            "ends_at": null,
+            "company": "IBM",
+            "company_linkedin_profile_url": "https://www.linkedin.com/company/ibm",
+            "company_facebook_profile_url": null,
+            "title": "Director & CTO, IBM Skills Network",
+            "description": "Developer Advocacy and Engagement: \n- Cultivating the current and next generation developer community. \n- Driving awareness, consideration, preference and loyalty within developer community.\n\nIncubating next generation mobile and cloud projects in the area of information management and analytics. \n- Keep an eye at what is coming around the corner, focus on disruptive technologies and business models, go for moonshots. \n- Bring new technology and development processes in to IBM product teams.\n\nMy focus on mobile is with IBM-Apple partnership specifically as it applies to information management and analytics.",
+            "location": "Toronto, Ontario, Canada",
+            "logo_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/company/ibm/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240920%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240920T152024Z&X-Amz-Expires=1800&X-Amz-SignedHeaders=host&X-Amz-Signature=d5541bc60b8486e1209c7b283a562b1fb97e7167c5008a645a3b2fa151c13788"
+        },
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 6,
+                "year": 2018
+            },
+            "ends_at": null,
+            "company": "Maryland Association of CPAs - MACPA",
+            "company_linkedin_profile_url": "https://www.linkedin.com/company/maryland-association-of-cpas",
+            "company_facebook_profile_url": null,
+            "title": "Member Board Of Directors",
+            "description": "The MACPA has played a major role in shaping the CPA profession since its founding in 1901. Recognizing the importance of trustworthy financial information in a market-based economy, Maryland was the third state in the nation that created the professional designation of certified public accountant.\n\"Connect, protect, achieve\" are the promises the Maryland Association of CPAs makes to its members. The MACPA is responsible for building and maintaining the infrastructure that supports the CPA profession and, ultimately, the U.S. capital markets. Our members represent sole practitioners who working with CPAs on Main Street, Big 4 accounting firms working internationally, CPAs serving as CFOs of public and private companies, controllers, accounting staff, educators, and government finance professionals.",
+            "location": "Baltimore, Maryland Area",
+            "logo_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/company/maryland-association-of-cpas/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240920%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240920T152024Z&X-Amz-Expires=1800&X-Amz-SignedHeaders=host&X-Amz-Signature=f31adc26c18f3fd12d66036fa7b006fd807f51ef79dbde7abb7b069d736a4baa"
+        },
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 7,
+                "year": 2013
+            },
+            "ends_at": {
+                "day": 30,
+                "month": 9,
+                "year": 2014
+            },
+            "company": "IBM",
+            "company_linkedin_profile_url": "https://www.linkedin.com/company/ibm",
+            "company_facebook_profile_url": null,
+            "title": "Director, Cloud & Mobile Information Management",
+            "description": null,
+            "location": "World Wide Responsibility",
+            "logo_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/company/ibm/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240920%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240920T152024Z&X-Amz-Expires=1800&X-Amz-SignedHeaders=host&X-Amz-Signature=d5541bc60b8486e1209c7b283a562b1fb97e7167c5008a645a3b2fa151c13788"
+        },
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 5,
+                "year": 1985
+            },
+            "ends_at": {
+                "day": 31,
+                "month": 7,
+                "year": 2013
+            },
+            "company": "IBM",
+            "company_linkedin_profile_url": "https://www.linkedin.com/company/ibm",
+            "company_facebook_profile_url": null,
+            "title": "Program Director",
+            "description": "Repsonsible for competitive positioning of DB2 database products with respect to database and related offerigs from Microsoft, Oracle and open source comunity.",
+            "location": null,
+            "logo_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/company/ibm/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240920%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240920T152024Z&X-Amz-Expires=1800&X-Amz-SignedHeaders=host&X-Amz-Signature=d5541bc60b8486e1209c7b283a562b1fb97e7167c5008a645a3b2fa151c13788"
+        }
+    ],
+    "education": [
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 1,
+                "year": 1982
+            },
+            "ends_at": {
+                "day": 31,
+                "month": 12,
+                "year": 1985
+            },
+            "field_of_study": "Computer Science",
+            "degree_name": "Honours BSc",
+            "school": "York University",
+            "school_linkedin_profile_url": "https://www.linkedin.com/company/167012/",
+            "school_facebook_profile_url": null,
+            "description": null,
+            "logo_url": "https://s3.us-west-000.backblazeb2.com/proxycurl/company/york-university/profile?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0004d7f56a0400b0000000001%2F20240920%2Fus-west-000%2Fs3%2Faws4_request&X-Amz-Date=20240920T152024Z&X-Amz-Expires=1800&X-Amz-SignedHeaders=host&X-Amz-Signature=0ee7d15797d500fa0eccd91ad6ee9b33b86c4531cbc10f497d1bac51b5ff315a",
+            "grade": null,
+            "activities_and_societies": null
+        }
+    ],
+    "languages": [
+        "English",
+        "Russian"
+    ],
+    "accomplishment_organisations": [
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 8,
+                "year": 2011
+            },
+            "ends_at": null,
+            "org_name": "Big Data University",
+            "title": null,
+            "description": null
+        }
+    ],
+    "accomplishment_publications": [
+        {
+            "name": "Keynote: Artificial Inteligence - What does it mean for Accounting Profession",
+            "publisher": "Digital CPA. CPA.com",
+            "published_on": {
+                "day": 6,
+                "month": 12,
+                "year": 2017
+            },
+            "description": "A keynote presentation at the Digital CPA conference in San Francisco organized by the American Institute of Chartered Public Accountants (AICPA) bringing together most progressive members of the CPA profession.\n\nThe topic of the presentation was avoiding disruption and harnessing the power artificial intelligence to thrive in the age of digital economy.",
+            "url": "https://www.digitalcpa.com/dcpa17/speakers"
+        },
+        {
+            "name": "DB2 10 for Linux, UNIX and Windows New Features",
+            "publisher": "McGraw-Hill Osborne Media",
+            "published_on": {
+                "day": 24,
+                "month": 9,
+                "year": 2012
+            },
+            "description": null,
+            "url": "https://www.ibm.com/developerworks/mydeveloperworks/blogs/SusanVisser/entry/flashbook_db2_10_for_linux_unix_windows_new_features1?lang=en"
+        },
+        {
+            "name": "IBM DB2 9 New Features",
+            "publisher": "McGraw-Hill Osborne Media",
+            "published_on": {
+                "day": 15,
+                "month": 1,
+                "year": 2007
+            },
+            "description": "422 page paperback on everything that is new in DB2 v9 a watter shed release for this very popular DBMS.\n\nEnhance productivity, profitability, and efficiency using IBM DB2 9 and the detailed information in this comprehensive resource. Written by experienced IBM data server professionals, IBM DB2 9 New Features covers the technical details of the major new aspects of DB2 9 alongside real-world business uses, syntax examples, and insider tips. Learn how to manipulate and manage XML data using pureXML, automate maintenance tasks, and seamlessly integrate Java, PHP, and Perl scripts. Plus, you'll get vital coverage of the brand-new DB2 Developer Workbench, enhanced .NET developer support, Ruby on Rails, and database security.\n\n    Learn about all the auto-configuration features that make getting DB2 up and running faster than ever before\n    Define, share, and validate data using XML and the unique pureXML DB2 Hybrid Storage Engine\n    Improve runtime performance and optimize storage with the new DB2 Compression Technology\n    Automatically handle DB2 memory allocation using the Self Tuning Memory Manager\n    Use Automatic Storage, Autonomic Computing, and a host of other autonomic features that make managing DB2 a snap\n    Create dynamic data server blueprints with Rational Data Architect version 6.1\n    Incorporate Java applications using the IBM WebSphere Application Server and DB2 data server\n    Develop open-source scripts using PHP, Perl, Toad, and Ruby on Rails\n    Utilize the DB2 Developer Workbench or exploit the enhanced .NET developer support\n    Deploy the latest DB2 security and high availability features ",
+            "url": "http://www.amazon.com/gp/product/0072264594/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0072264594&linkCode=as2&tag=db2onrailscom-20"
+        },
+        {
+            "name": "Information on Demand: Introduction to DB2 9 New Features",
+            "publisher": "Osborne/McGraw-Hill",
+            "published_on": {
+                "day": 1,
+                "month": 11,
+                "year": 2006
+            },
+            "description": "122-page paperback\n\nDB2 9 New Features: Learning Just Got Easier - Preview DB2 9. Today DB2 9 is a leading-edge hybrid data server that supports both relational and pureXML storage. Start learning DB2 9 today with this guide that highlights the business value and how DB2 offers real-world business, development, and operational solutions. Download DB2 Express-C 9 - it is free to develop, deploy, and distribute (with no user and database size limitations) and features pureXML technology. After test-driving the software, take your skills to the next level with the full version of this book, \"IBM DB2 9 New Features\" (McGraw-Hill, 2007), and the full version of DB2 9.",
+            "url": "http://www.amazon.com/gp/product/0071487832/ref=as_li_ss_tl?ie=UTF8&camp=1789&creative=390957&creativeASIN=0071487832&linkCode=as2&tag=db2onrailscom-20"
+        }
+    ],
+    "accomplishment_projects": [
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 4,
+                "year": 2015
+            },
+            "ends_at": null,
+            "title": "Data Scientist Workbench",
+            "description": "Data Science is enjoying explosive growth. Aspiring data scientists are overwhelmingly choosing open source and open data. Configuring and maintaining productive open data science environment is a difficult and distracting chore. There are choices of programming languages, 10s of thousands of libraries for each of the languages, programming tools such as notebooks and IDEs, tools for data preparation, and big data systems such as analytics databases, Hadoop, Spark etc.\nData Scientist Workbench makes Open Data Science easy by creating an environment that is ready to use in minutes using nothing more than a web browser. It has popular tools such as Jupiter and Zeppelin notebooks, RStudio, OpenRefine all set up with popular libraries. And if your favourite library is not there, simply pull it in from a public repository. For those that need to work with large data sets, Apache Spark is integrated in to the Data Scientist Workbench as is ability to submit jobs for execution on your own Spark or Hadoop cluster or submit analytics jobs to analytics DBMS such as IBM dashDB. Data Scientist Workbench supports the entire work cycle including data discovery, data preparation, machine learning, deep learning, data visualization and publishing. It also makes it easy to collaborate with colleagues and community at large.\nMost important, we build Data Scientist Workbench completely in the open with extensive feedback from our users. Our users are fully engaged by suggesting features they would like to see, getting support and votes from others in the community for their ideas. This resulted in exponential growth of our user base with over eleven thousand data scientists signing on in just a few short month without any marketing or advertising on our part. Data Scientist Workbench is delivered in the cloud globally from multiple distributed data centers and is optimized for unique needs of people in different parts of the world including China. ",
+            "url": "http://DataScientistWorkbench.com"
+        },
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 2,
+                "year": 2014
+            },
+            "ends_at": {
+                "day": 28,
+                "month": 2,
+                "year": 2014
+            },
+            "title": "IBM dashDB (started as BLU Acceleration for Cloud)",
+            "description": "Our humble incubation has become an IBM product called dashDB, a leading cloud-based data warehouse solution. BLU Acceleration for Cloud is disruptive technology that brings the benefits of the world's most advanced in-memory columnar data base technology to everyone regardless of budget or skill. It greatly reduces both the expense and the skill requirements and let's anyone create secure multi-terabyte data warehouse system in about 20 minutes for less than a price of a cup of coffee. Unlike some of the other cloud DBMS, BLU Acceleration for Cloud provides a complete system including BI tools, expertly designed database schemas, data warehouse design tools and a complete R development and execution environment. BLU Acceleration for Cloud integrates your cloud data warehouse with on-prem data sources and with the web born data.\nBLU Acceleration for Cloud is one of the most exciting projects I've ever worked on with a highly energized team using Minimum Viable Product methodology to deliver groundbreaking results in record time. I think we broke every rule in the book bringing this disruptive technology to market and in the process demonstrated how an established provider like IBM can pursues high growth opportunities.",
+            "url": "http://bluforcloud.com"
+        },
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 3,
+                "year": 2013
+            },
+            "ends_at": {
+                "day": 31,
+                "month": 3,
+                "year": 2013
+            },
+            "title": "Big SQL Technology Sandbox",
+            "description": "Big SQL is a transformational technology that democratizes access to data stored in Hadoop. Big Data Technology Preview program removes barriers to accessing Big SQL technology. It provides a cloud hosted environment complete with sample data, a comprehensive course on using SQL with Hadoop data and an ecosystem of deep engagement that connects program participants with each other and the IBM development team. It also includes a rapidly growing ecosystem of BI application providers to demonstrate the real value of this new technology.\nThe project is well on the way of becoming one of the most successful technology introductions IBM has ever done. 62% of program participants indicated that they would be willing to become a reference or provide a quote.",
+            "url": "http://prezi.com/unsjamsqa0qs/ibm-big-sql-technology-preview-program/?kw=view-unsjamsqa0qs&rc=ref-18822200"
+        },
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 9,
+                "year": 2011
+            },
+            "ends_at": null,
+            "title": "BigDataUniversity.com",
+            "description": "With over 68000 registered students and experiencing hyper growth BigDataUniversity.com is the most popular destination acquiring skills in Hadoop and other Big Data technologies. BigDataUniversity.com provides @your pace, @your place education that allows people to enhance their careers without giving up their work time or incurring the expense of formal education and travel.",
+            "url": "http://BigDataUniversity.com"
+        },
+        {
+            "starts_at": {
+                "day": 1,
+                "month": 6,
+                "year": 2011
+            },
+            "ends_at": null,
+            "title": "IBM IM Demo Cloud",
+            "description": "IBM IM Demo Cloud dramatically accelerates sales cycles by providing IBM sellers and business partners with ability to create environments for hands-on experimentation, as well as ability to conduct Proof of Concept and new product introductions with prospective clients.\nTypical environments can be provisioned and delivered to the customer in 10 minutes. Customers do not need to perform any of the tasks that detract from productive evaluation experience or slow down the sales process. Clients get immediate access to completely configured multi-server, multi-product environments that mirror potential production deployment of technologies and products being evaluated. Both seller and customers maintain complete visibility and are able to collaborate to achieve desired results. Over 250 IBM and business partners are currently using IM Demo Cloud to deliver IBM Big Data and other Information Management projects.",
+            "url": null
+        }
+    ],
+    "connections": 8393,
+    "recommendations": [
+        "Polong Lin\n\n\n\nI was very lucky to have Leon as my manager during my four years at IBM. Because of Leon's passion to innovate, we were constantly at the forefront of thought leadership whether it was cloud, AI or blockchain, and Leon was always searching for the \"next big thing\". He had an intense focus on users, and this brought forth in the team an ability to develop products that successfully grew to widespread adoption.\nLeon constantly pushed me beyond my comfort zone, taught me how to formulate new projects, manage relationships, and to build-measure-learn. From developer advocacy to marketing to entrepreneurship, the skills that I learned on Leon's team were endless. Never afraid to admit when he was wrong, Leon always put the team ahead of himself, and he created an environment where everyone was safe to learn, explore and even fail. He taught me to dream big and how to make dreams reality. \nI couldn\u2019t recommend Leon more.",
+        "Ari Valtanen\n\n\n\nI have worked with Leon in direct and indirect management roles, related to IBM data management and big data products. We've done technical evangelism, customer and partner enablement, poc&pilot deployments in the Cloud(s), etc.\r\n\r\nWhat continues to amaze me is his speed of execution, his talent and skill to build and motivate small but extremely effective A-teams, who get things done exceeding the expectations and beating the metrics.  This usually happens without the brouhaha and bravado, but at the end you'll see the results.\r\n\r\nLeon is a great manager, passionate leader, and always ready to recognize and take care of his team.\r\n\r\nBut that's only starters.  Leon is very spirited and engaging speaker, and after you've listened to him for just few minutes you realize how clearly and simply he is able to explain even the most complex topics, topics typically new or emerging where 'standard canned explanation' do not yet exist.  That's the result of staying current, researching, thinking, understanding and finally capturing the essence of new things, which takes a LOT of work, LOTS of experience, and also a good amount of natural talent.  Leon has it all."
+    ],
+    "skills": [
+        "Edtech",
+        "Artificial Intelligence (AI)",
+        "Entrepreneurship",
+        "Business Development",
+        "Cloud Computing",
+        "Enterprise Software",
+        "Databases",
+        "Software Engineering",
+        "Big Data",
+        "Enterprise Architecture",
+        "Product Management",
+        "Product Development",
+        "Portfolio Management",
+        "Business Intelligence",
+        "Software Development",
+        "IT Strategy",
+        "Solution Architecture",
+        "Agile Project Management",
+        "Performance Tuning",
+        "Distributed Systems",
+        "Data Warehousing",
+        "Software Project Management",
+        "Integration",
+        "Database Design",
+        "Data Modeling",
+        "Requirements Analysis",
+        "High Availability",
+        "Programming",
+        "Architecture",
+        "Business Strategy",
+        "ETL",
+        "Program Management",
+        "Architectures",
+        "SaaS",
+        "SQL",
+        "Relational Databases",
+        "DB2",
+        "Hadoop",
+        "Unix",
+        "blockchain",
+        "Open Source",
+        "Amazon Web Services (AWS)",
+        "Amazon Web Services",
+        "Management",
+        "Leadership",
+        "Technical Leadership",
+        "Mentoring",
+        "Innovation",
+        "Database Admin",
+        "Database Systems",
+        "Streams",
+        "PaaS",
+        "Hive"
+    ],
+    "inferred_salary": {
+        "min": null,
+        "max": null
+    },
+    "personal_emails": [
+        "leon.katsnelson@gmail.com",
+        "leon@ca.ibm.com",
+        "lkatsnelson@ibm.com"
+    ],
+    "personal_numbers": [
+        "+16472016275"
+    ]
+}

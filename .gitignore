@@ -1,4 +1,24 @@
-venv/
+# Python bytecode and cache
 __pycache__/
+*.py[cod]
+*$py.class
 *.pyc
+*.so
+
+# Virtual environment
+venv/
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# LLM and embeddings cache (specific to your project)
+.cache/
+cache/
+*.cache
+.cache\embeddings\models--BAAI--bge-small-en-v1.5/
+
+# Environment variables and secrets
 .env

@@ -10,5 +10,5 @@ This package contains the following modules:
 
 from modules.data_extraction import extract_linkedin_profile
 from modules.data_processing import split_profile_data, create_vector_database, verify_embeddings
-from modules.llm_interface import create_watsonx_embedding, create_watsonx_llm, change_llm_model
+from modules.llm_interface import create_perplexity_embedding, create_perplexity_llm
 from modules.query_engine import generate_initial_facts, answer_user_query
