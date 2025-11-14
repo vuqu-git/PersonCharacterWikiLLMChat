@@ -8,7 +8,7 @@ This package contains the following modules:
 - query_engine: Functions for querying indexed LinkedIn profile data
 """
 
-from modules.data_extraction import extract_linkedin_profile
+from modules.data_extraction import extract_linkedin_profile, extract_got_profile
 from modules.data_processing import split_profile_data, create_vector_database, verify_embeddings
 from modules.llm_interface import create_perplexity_embedding, create_perplexity_llm
 from modules.query_engine import generate_initial_facts, answer_user_query

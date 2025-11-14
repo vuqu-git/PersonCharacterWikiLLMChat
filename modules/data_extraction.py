@@ -5,6 +5,8 @@ import requests
 import logging
 from typing import Dict, Optional, Any
 
+from bs4 import BeautifulSoup
+
 import config
 
 logger = logging.getLogger(__name__)
@@ -85,4 +87,136 @@ def extract_linkedin_profile(
 
     except Exception as e:
         logger.error(f"Error in extract_linkedin_profile: {e}")
+        return {}
+
+##################################
+
+def extract_got_profile(
+        wiki_url: str,
+        mock: bool = False
+) -> Dict[str, Any]:
+    """Extract Game of Thrones wiki page content using web scraping.
+
+    Args:
+        wiki_url: The Fandom wiki URL to scrape (e.g., https://gameofthrones.fandom.com/wiki/Rhaenyra_Targaryen).
+        mock: If True, loads mock data from a saved HTML file instead of scraping.
+
+    Returns:
+        Dictionary containing the scraped wiki page data with structured sections.
+    """
+    start_time = time.time()
+
+    try:
+        if mock:
+            logger.info("Using mock data from a saved HTML file...")
+            # Load from local HTML file
+            with open("mock_got_wiki.html", "r", encoding="utf-8") as f:
+                html_content = f.read()
+        else:
+            logger.info(f"Starting to scrape wiki page: {wiki_url}")
+
+            # Set headers to avoid 403 Forbidden errors
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+
+            logger.info(f"Sending request to Fandom at {time.time() - start_time:.2f} seconds...")
+            response = requests.get(wiki_url, headers=headers, timeout=30)
+
+            if response.status_code != 200:
+                logger.error(f"Failed to retrieve wiki page. Status code: {response.status_code}")
+                return {}
+
+            html_content = response.text
+
+        logger.info(f"Received response at {time.time() - start_time:.2f} seconds...")
+
+        # Parse HTML with BeautifulSoup
+        soup = BeautifulSoup(html_content, 'html.parser')
+
+        # Extract character name from title
+        title_element = soup.find('h1', class_='page-header__title')
+        character_name = title_element.get_text(strip=True) if title_element else "Unknown"
+
+        # Extract main content from the article
+        content_div = soup.find('div', class_='mw-parser-output')
+
+        if not content_div:
+            logger.error("Could not find main content div")
+            return {}
+
+        # Initialize data structure
+        data = {
+            "name": character_name,
+            "url": wiki_url,
+            "sections": {}
+        }
+
+        # Extract text sections, filtering out unwanted elements
+        blacklist = ['script', 'style', 'noscript', 'header', 'footer', 'nav', 'aside']
+
+        # Find all section headers and content
+        current_section = "Overview"
+        section_content = []
+
+        for element in content_div.find_all(['h2', 'h3', 'p', 'ul']):
+            # Skip blacklisted elements
+            if element.name in blacklist or element.parent.name in blacklist:
+                continue
+
+            # Check if it's a section header
+            if element.name in ['h2', 'h3']:
+                # Save previous section if it has content
+                if section_content:
+                    data["sections"][current_section] = ' '.join(section_content)
+                    section_content = []
+
+                # Start new section
+                current_section = element.get_text(strip=True)
+                # Remove edit links and other unwanted text
+                current_section = current_section.replace('[edit]', '').strip()
+
+            # Extract paragraph or list text
+            elif element.name == 'p':
+                text = element.get_text(strip=True)
+                if text and len(text) > 20:  # Filter out very short paragraphs
+                    section_content.append(text)
+
+            elif element.name == 'ul':
+                # Extract list items
+                list_items = [li.get_text(strip=True) for li in element.find_all('li')]
+                if list_items:
+                    section_content.extend(list_items)
+
+        # Save the last section
+        if section_content:
+            data["sections"][current_section] = ' '.join(section_content)
+
+        # Extract infobox data if available
+        infobox = soup.find('aside', class_='portable-infobox')
+        if infobox:
+            infobox_data = {}
+            for row in infobox.find_all('div', class_='pi-item'):
+                label_elem = row.find('h3', class_='pi-data-label')
+                value_elem = row.find('div', class_='pi-data-value')
+
+                if label_elem and value_elem:
+                    label = label_elem.get_text(strip=True)
+                    value = value_elem.get_text(strip=True)
+                    infobox_data[label] = value
+
+            if infobox_data:
+                data["infobox"] = infobox_data
+
+        # Clean empty sections
+        data["sections"] = {k: v for k, v in data["sections"].items() if v}
+
+        logger.info(f"Successfully extracted {len(data['sections'])} sections from wiki page")
+        return data
+
+    except FileNotFoundError:
+        logger.error("Mock HTML file not found. Please save a mock file as 'mock_got_wiki.html'")
+        return {}
+    except Exception as e:
+        logger.error(f"Error in extract_got_profile: {e}")
         return {}

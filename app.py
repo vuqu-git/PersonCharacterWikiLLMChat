@@ -6,8 +6,9 @@ import logging
 import uuid
 import gradio as gr
 
-from modules.data_extraction import extract_linkedin_profile
-from modules.data_processing import split_profile_data, create_vector_database, verify_embeddings
+from modules.data_extraction import extract_linkedin_profile, extract_got_profile
+from modules.data_processing import split_profile_data, create_vector_database, verify_embeddings, \
+    split_got_profile_data
 from modules.query_engine import generate_initial_facts, answer_user_query
 import config
 
@@ -133,6 +134,52 @@ def process_profile(linkedin_url, api_key, use_mock):
     except Exception as e:
         logger.error(f"Error in process_profile: {e}")
         return f"Error: {str(e)}", None
+
+def process_got_profile(wiki_url: str, use_mock: bool = False):
+    """Process a Game of Thrones wiki profile and generate initial facts.
+
+    Args:
+        wiki_url: Fandom wiki URL to process.
+        use_mock: Whether to use mock data from a saved HTML file.
+
+    Returns:
+        Initial facts about the character and a session ID for this conversation.
+    """
+    try:
+        if use_mock and not wiki_url:
+            wiki_url = "https://gameofthrones.fandom.com/wiki/Rhaenyra_Targaryen"
+
+        # Extract profile data from wiki
+        profile_data = extract_got_profile(wiki_url, mock=use_mock)
+
+        if not profile_data:
+            return "Failed to retrieve wiki data. Please check the URL.", None
+
+        # Split data into nodes using wiki-specific splitter
+        nodes = split_got_profile_data(profile_data)
+
+        if not nodes:
+            return "Failed to process wiki data into nodes.", None
+
+        # Rest remains the same...
+        index = create_vector_database(nodes)
+
+        if not index:
+            return "Failed to create vector database.", None
+
+        if not verify_embeddings(index):
+            logger.warning("Some embeddings may be missing or invalid")
+
+        facts = generate_initial_facts(index)
+        session_id = str(uuid.uuid4())
+        active_indices[session_id] = index
+
+        return f"Wiki page processed successfully!\n\nHere are 3 interesting facts about this character:\n\n{facts}", session_id
+
+    except Exception as e:
+        logger.error(f"Error in process_got_profile: {e}")
+        return f"Error: {str(e)}", None
+
 
 # def chat_with_profile(session_id, user_query, chat_history):
 #     """Chat with a processed LinkedIn profile.

@@ -40,6 +40,65 @@ def split_profile_data(profile_data: Dict[str, Any]) -> List:
         logger.error(f"Error in split_profile_data: {e}")
         return []
 
+def split_got_profile_data(profile_data: Dict[str, Any]) -> List:
+    """Splits the Game of Thrones wiki data into nodes with section metadata.
+
+    Args:
+        profile_data: Wiki profile data dictionary with 'sections' and optional 'infobox'.
+
+    Returns:
+        List of document nodes with metadata.
+    """
+    try:
+        nodes = []
+
+        # Create metadata for the character
+        base_metadata = {
+            "character_name": profile_data.get("name", "Unknown"),
+            "source_url": profile_data.get("url", ""),
+            "source_type": "game_of_thrones_wiki"
+        }
+
+        # Add infobox information as a separate node if available
+        if "infobox" in profile_data:
+            infobox_text = json.dumps(profile_data["infobox"], indent=2)
+            infobox_doc = Document(
+                text=f"Character Information:\n{infobox_text}",
+                metadata={**base_metadata, "section": "Infobox"}
+            )
+            nodes.append(infobox_doc)
+
+        # Process each section separately to maintain semantic boundaries
+        if "sections" in profile_data:
+            for section_name, section_content in profile_data["sections"].items():
+                # Skip empty sections
+                if not section_content or len(section_content) < 50:
+                    continue
+
+                # Create document with section-specific metadata
+                section_metadata = {
+                    **base_metadata,
+                    "section": section_name
+                }
+
+                section_doc = Document(
+                    text=f"Section: {section_name}\n\n{section_content}",
+                    metadata=section_metadata
+                )
+                nodes.append(section_doc)
+
+        # Now split each document into smaller chunks if needed
+        splitter = SentenceSplitter(chunk_size=config.CHUNK_SIZE, chunk_overlap=50)
+        final_nodes = splitter.get_nodes_from_documents(nodes)
+
+        logger.info(f"Created {len(final_nodes)} nodes from {len(nodes)} sections")
+        return final_nodes
+
+    except Exception as e:
+        logger.error(f"Error in split_got_profile_data: {e}")
+        return []
+
+
 def create_vector_database(nodes: List) -> Optional[VectorStoreIndex]:
     """Stores the document chunks (nodes) in a vector database.
 
