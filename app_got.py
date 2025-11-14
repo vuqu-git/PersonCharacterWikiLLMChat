@@ -1,6 +1,5 @@
 """Gradio web interface for the Game of Thrones Wiki Bot."""
 
-import os
 import sys
 import logging
 import uuid
@@ -92,10 +91,19 @@ def chat_with_character(session_id, user_query, chat_history):
         Updated chat history.
     """
     if not session_id:
-        return chat_history + [[user_query, "No character loaded. Please process a wiki page first."]]
+        return chat_history + [
+            {"role": "user", "content": user_query},
+            {"role": "assistant", "content": "No character loaded. Please process a wiki page first."}
+        ]# ,                 ""
+#      ↑                     ↑
+#      First return value   Second return value
+#      (updated chat)       (empty string)
 
     if session_id not in active_indices:
-        return chat_history + [[user_query, "Session expired. Please process the wiki page again."]]
+        return chat_history + [
+            {"role": "user", "content": user_query},
+            {"role": "assistant", "content": "Session expired. Please process the wiki page again."}
+        ]#, ""
 
     if not user_query.strip():
         return chat_history
@@ -108,11 +116,17 @@ def chat_with_character(session_id, user_query, chat_history):
         response = answer_user_query(index, user_query)
 
         # Update chat history
-        return chat_history + [[user_query, response.response]]
+        return chat_history + [
+            {"role": "user", "content": user_query},
+            {"role": "assistant", "content": response.response}
+        ]  # ✅ Only return chat_history (removed ", """)
 
     except Exception as e:
         logger.error(f"Error in chat_with_character: {e}")
-        return chat_history + [[user_query, f"Error: {str(e)}"]]
+        return chat_history + [
+            {"role": "user", "content": user_query},
+            {"role": "assistant", "content": f"Error: {str(e)}"}
+        ]  # ✅ Only return chat_history (removed ", """)
 
 
 def create_gradio_interface():
@@ -170,8 +184,10 @@ def create_gradio_interface():
 
             chatbot = gr.Chatbot(
                 height=500,
+                type='messages',  # Add this parameter
                 placeholder="Process a wiki page first, then ask questions here!"
             )
+
             chat_input = gr.Textbox(
                 label="Ask a question about the character",
                 placeholder="What is this character's house allegiance?"
@@ -183,17 +199,25 @@ def create_gradio_interface():
                 fn=chat_with_character,
                 inputs=[session_id, chat_input, chatbot],
                 outputs=[chatbot]
+                # outputs=[chatbot, chat_input]
             )
 
             chat_input.submit(
                 fn=chat_with_character,
                 inputs=[session_id, chat_input, chatbot],
                 outputs=[chatbot]
+                # outputs=[chatbot, chat_input]
+                #        ↑        ↑
+                #        |        └── Gets the second return value ("")
+                #        └── Gets the first return value (chat history)
             )
+                # Gradio maps return values to output components in order:
+                #     First return value → First output component (chatbot): Updates the chat display with new messages
+                #     Second return value → Second output component (chat_input): Sets the textbox value to "" (clearing it)
+                #     The number of return values from the fn chat_with_character must match the number of components in the outputs list
 
             # Clear chat button
-            clear_btn = gr.Button("Clear Chat")
-            clear_btn.click(lambda: [], outputs=[chatbot])
+            clear_btn = gr.ClearButton([chatbot])
 
     return demo
 
