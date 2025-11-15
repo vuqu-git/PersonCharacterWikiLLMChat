@@ -204,7 +204,7 @@ def create_gradio_interface():
         gr.Markdown("""
         ### How to use:
         1. Go to the **Process Wiki Page** tab
-        2. Option 1: Upload a HTML file or Oprtion 2: enter a Game of Thrones Fandom wiki URL or use mock data
+        2. Option 1: Upload a HTML file or Option 2: enter a Game of Thrones Fandom wiki URL (maybe 403 - bot/scraper protection) or use mock data
         3. Click **Process ...** to analyze the character
         4. Go to the **Chat** tab to ask questions about the character
         ---
