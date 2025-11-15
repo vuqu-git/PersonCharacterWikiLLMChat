@@ -8,7 +8,7 @@ import argparse
 from modules.data_extraction import extract_got_profile
 from modules.data_processing import split_got_profile_data, create_vector_database, verify_embeddings
 from modules.query_engine import generate_initial_facts, answer_user_query
-import config
+
 
 # Set up logging
 logging.basicConfig(
@@ -126,10 +126,10 @@ if __name__ == "__main__":
 
 ## To test our CLI application, we can run it with various combinations of arguments:
 # 1. With a Game of Thrones wiki URL:
-# python main_got.py --url https://gameofthrones.fandom.com/wiki/Jon_Snow
+# python main_got_CLI.py --url https://gameofthrones.fandom.com/wiki/Jon_Snow
 
 # 2. With mock data:
-# python main_got.py --mock
+# python main_got_CLI.py --mock
 
 # 3. Interactive mode (will prompt for URL):
-# python main_got.py
+# python main_got_CLI.py

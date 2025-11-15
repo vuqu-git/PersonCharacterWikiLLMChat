@@ -1,7 +1,7 @@
 """Module for querying indexed LinkedIn profile data."""
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any
 
 from llama_index.core import VectorStoreIndex, PromptTemplate
 
@@ -77,12 +77,14 @@ def answer_user_query(index: VectorStoreIndex, user_query: str) -> Any:
         # Create prompt template
         question_prompt = PromptTemplate(template=config.USER_QUESTION_TEMPLATE)
 
-        # Retrieve relevant nodes
-        base_retriever = index.as_retriever(similarity_top_k=config.SIMILARITY_TOP_K)
-        source_nodes = base_retriever.retrieve(user_query)
-
-        # Build context string => is  not being used; issue is that it's manually retrieved here, but LlamaIndex's query_engine already handles context retrieval and formatting internally
-        context_str = "\n\n".join([node.node.get_text() for node in source_nodes])
+        # ''''''''''''''''''''''''''''''''''
+        # # manual retrieval of relevant nodes - can be removed because query_engine does this automatically
+        # base_retriever = index.as_retriever(similarity_top_k=config.SIMILARITY_TOP_K)
+        # source_nodes = base_retriever.retrieve(user_query)
+        #
+        # # Build context string => is  not being used; issue is that it's manually retrieved here, but LlamaIndex's query_engine already handles context retrieval and formatting internally
+        # context_str = "\n\n".join([node.node.get_text() for node in source_nodes])
+        # ''''''''''''''''''''''''''''''''''
 
         # Create query engine
         query_engine = index.as_query_engine(
@@ -97,4 +99,10 @@ def answer_user_query(index: VectorStoreIndex, user_query: str) -> Any:
         return answer
     except Exception as e:
         logger.error(f"Error in answer_user_query: {e}")
-        return "Failed to get an answer."
+
+        # return "Failed to get an answer."
+        # ✅ Return error response object instead of string
+        class ErrorResponse:
+            def __init__(self, message):
+                self.response = message
+        return ErrorResponse(f"Error: {str(e)}")

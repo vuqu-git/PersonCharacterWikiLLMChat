@@ -40,7 +40,7 @@ Context information is below:
 
 {context_str}
 
-Based on the context provided, list 3 interesting facts about this person's career or education.
+Based on the context provided, list 3 interesting facts about this person's life.
 
 Answer in detail, using only the information provided in the context.
 """
@@ -54,5 +54,5 @@ Context information is below:
 
 Question: {query_str}
 
-Answer in full details, using only the information provided in the context. If the answer is not available in the context, say "I don't know. The information is not available on the LinkedIn page."
+Answer in full details, using only the information provided in the context. If the answer is not available in the context, say "I don't know. The information is not available on the provided material."
 """

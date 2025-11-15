@@ -8,7 +8,6 @@ import gradio as gr
 from modules.data_extraction import extract_got_profile
 from modules.data_processing import split_got_profile_data, create_vector_database, verify_embeddings
 from modules.query_engine import generate_initial_facts, answer_user_query
-import config
 
 # Set up logging
 logging.basicConfig(
@@ -79,6 +78,71 @@ def process_got_profile(wiki_url: str, use_mock: bool = False):
         return f"Error: {str(e)}", None
 
 
+def process_got_profile_from_file(html_file, wiki_url: str = ""):
+    """Process a Game of Thrones wiki profile from uploaded HTML file.
+
+    Args:
+        html_file: Uploaded HTML file object from Gradio.
+        wiki_url: Optional URL for reference.
+
+    Returns:
+        Initial facts about the character and a session ID for this conversation.
+    """
+    try:
+        if html_file is None:
+            return "Please upload an HTML file.", None
+
+        # Read the uploaded HTML file
+        logger.info(f"Reading uploaded file: {html_file.name}")
+        with open(html_file.name, "r", encoding="utf-8") as f:
+            html_content = f.read()
+
+        logger.info(f"HTML file loaded, size: {len(html_content)} characters")
+
+        # Extract profile data from the HTML content
+        profile_data = extract_got_profile(html_content=html_content)
+
+        # Use the wiki_url (as metadata) if provided, otherwise leave blank
+        if wiki_url:
+            profile_data["url"] = wiki_url
+
+        if not profile_data:
+            return "Failed to parse HTML file. Please ensure it's a valid Fandom wiki page.", None
+
+        # Split data into nodes
+        nodes = split_got_profile_data(profile_data)
+
+        if not nodes:
+            return "Failed to process wiki data into nodes.", None
+
+        # Create vector database
+        index = create_vector_database(nodes)
+
+        if not index:
+            return "Failed to create vector database.", None
+
+        # Verify embeddings
+        if not verify_embeddings(index):
+            logger.warning("Some embeddings may be missing or invalid")
+
+        # Generate initial facts
+        facts = generate_initial_facts(index)
+
+        # Generate a unique session ID
+        session_id = str(uuid.uuid4())
+
+        # Store the index for this session
+        active_indices[session_id] = index
+
+        return f"HTML file processed successfully!\n\nHere are 3 interesting facts about this character:\n\n{facts}", session_id
+
+    except Exception as e:
+        logger.error(f"Error in process_got_profile_from_file: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        return f"Error: {str(e)}", None
+
+
 def chat_with_character(session_id, user_query, chat_history):
     """Chat about a processed Game of Thrones character.
 
@@ -129,6 +193,7 @@ def chat_with_character(session_id, user_query, chat_history):
         ]  # ✅ Only return chat_history (removed ", """)
 
 
+
 def create_gradio_interface():
     """Create the Gradio interface for the Game of Thrones Wiki Bot."""
 
@@ -139,15 +204,44 @@ def create_gradio_interface():
         gr.Markdown("""
         ### How to use:
         1. Go to the **Process Wiki Page** tab
-        2. Enter a Game of Thrones Fandom wiki URL or use mock data
-        3. Click **Process Wiki Page** to analyze the character
+        2. Option 1: Upload a HTML file or Oprtion 2: enter a Game of Thrones Fandom wiki URL or use mock data
+        3. Click **Process ...** to analyze the character
         4. Go to the **Chat** tab to ask questions about the character
         ---
         """)
 
         with gr.Tab("Process Wiki Page"):
+            # ✅ One row containing both options side-by-side
             with gr.Row():
-                with gr.Column(scale=4):  # Give more space to the URL column
+                # Option 1: Left column
+                with gr.Column(scale=1):
+                    gr.Markdown("### Option 1: Upload HTML File")
+                    gr.Markdown("Download a wiki page as HTML (Right-click → Save As → Webpage, Complete) and upload the HTML file here.")
+
+                    html_file = gr.File(
+                        label="Upload HTML File",
+                        file_types=[".html", ".htm"],
+                        file_count="single"
+                    )
+                    wiki_url_optional = gr.Textbox(
+                        label="Wiki URL (Optional)",
+                        placeholder="https://gameofthrones.fandom.com/wiki/Character_Name",
+                        info="Optional: Add the source URL for reference",
+                        lines=1,
+                        max_lines=1
+                    )
+                    process_file_btn = gr.Button("Process Uploaded HTML", variant="primary")
+
+                # Option 2: Right column
+                with gr.Column(scale=1):
+                    gr.Markdown("### Option 2: Use Mock Data or Web Scraping")
+
+                    gr.Markdown("**Example URLs:**")
+                    gr.Markdown("""
+                    - https://gameofthrones.fandom.com/wiki/Jon_Snow
+                    - https://gameofthrones.fandom.com/wiki/Daenerys_Targaryen
+                    """)
+
                     wiki_url = gr.Textbox(
                         label="Fandom Wiki URL",
                         placeholder="https://gameofthrones.fandom.com/wiki/Character_Name",
@@ -161,17 +255,21 @@ def create_gradio_interface():
                         info="Load from the saved default HTML file (no web scraping)"
                     )
 
-                    gr.Markdown("### Example URLs:")
-                    gr.Markdown("""
-                    - https://gameofthrones.fandom.com/wiki/Jon_Snow
-                    - https://gameofthrones.fandom.com/wiki/Daenerys_Targaryen
-                    """)
-
                     process_btn = gr.Button("Process Wiki Page", variant="primary")
 
-                with gr.Column(scale=3):  # Results column takes less space
-                    result_text = gr.Textbox(label="Initial Facts", lines=12)
-                    session_id = gr.Textbox(label="Session ID", visible=False)
+            # ✅ New row for output - full width
+            gr.Markdown("---")
+            with gr.Row():
+                result_text = gr.Textbox(label="Initial Facts", lines=12, interactive=False)
+
+            session_id = gr.Textbox(label="Session ID", visible=False)
+
+            # Connect both buttons to the same output components
+            process_file_btn.click(
+                fn=process_got_profile_from_file,
+                inputs=[html_file, wiki_url_optional],
+                outputs=[result_text, session_id]
+            )
 
             process_btn.click(
                 fn=process_got_profile,
@@ -184,13 +282,15 @@ def create_gradio_interface():
 
             chatbot = gr.Chatbot(
                 height=500,
-                type='messages',  # Add this parameter
+                type='messages',
                 placeholder="Process a wiki page first, then ask questions here!"
             )
 
             chat_input = gr.Textbox(
                 label="Ask a question about the character",
-                placeholder="What is this character's house allegiance?"
+                placeholder="What is this character's house allegiance?",
+                lines=1,
+                max_lines=1
             )
 
             chat_btn = gr.Button("Send")
@@ -199,25 +299,25 @@ def create_gradio_interface():
                 fn=chat_with_character,
                 inputs=[session_id, chat_input, chatbot],
                 outputs=[chatbot]
-                # outputs=[chatbot, chat_input]
             )
 
             chat_input.submit(
                 fn=chat_with_character,
                 inputs=[session_id, chat_input, chatbot],
                 outputs=[chatbot]
-                # outputs=[chatbot, chat_input]
-                #        ↑        ↑
-                #        |        └── Gets the second return value ("")
-                #        └── Gets the first return value (chat history)
-            )
-                # Gradio maps return values to output components in order:
-                #     First return value → First output component (chatbot): Updates the chat display with new messages
-                #     Second return value → Second output component (chat_input): Sets the textbox value to "" (clearing it)
-                #     The number of return values from the fn chat_with_character must match the number of components in the outputs list
+#                 # outputs=[chatbot, chat_input]
+#                 #        ↑        ↑
+#                 #        |        └── Gets the second return value ("")
+#                 #        └── Gets the first return value (chat history)
 
-            # Clear chat button
-            clear_btn = gr.ClearButton([chatbot])
+#                 # Gradio maps return values to output components in order:
+#                 #     First return value → First output component (chatbot): Updates the chat display with new messages
+#                 #     Second return value → Second output component (chat_input): Sets the textbox value to "" (clearing it)
+#                 #     The number of return values from the fn chat_with_character must match the number of components in the outputs list
+#
+            )
+
+            gr.ClearButton([chatbot])
 
     return demo
 
@@ -227,6 +327,6 @@ if __name__ == "__main__":
     # Launch the Gradio interface
     demo.launch(
         server_name="127.0.0.1",
-        server_port=5001,  # Different port from the LinkedIn app
+        server_port=5001,
         share=False  # Set to True to create a public link
     )

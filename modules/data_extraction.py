@@ -92,8 +92,9 @@ def extract_linkedin_profile(
 ##################################
 
 def extract_got_profile(
-        wiki_url: str,
-        mock: bool = False
+        wiki_url: str = None,
+        mock: bool = False,
+        html_content: str = None  # NEW: Accept HTML content directly
 ) -> Dict[str, Any]:
     """Extract Game of Thrones wiki page content using web scraping.
 
@@ -107,9 +108,15 @@ def extract_got_profile(
     start_time = time.time()
 
     try:
-        if mock:
+        # Priority: 1. Direct HTML content (uploaded file)
+        #           2. Mock file
+        #           3. Web scraping
+        if html_content:
+            logger.info("Using uploaded HTML content...")
+            logger.info(f"HTML content length: {len(html_content)} characters")
+            # ✅ DON'T parse yet - just store it
+        elif mock:
             logger.info("Using mock data from a saved HTML file...")
-            # Load from LOCAL HTML file
             mock_file_path = "mock_got_wiki.html"
             try:
                 with open(mock_file_path, "r", encoding="utf-8") as f:
@@ -120,11 +127,18 @@ def extract_got_profile(
                 logger.info("Please save a wiki page HTML to 'mock_got_wiki.html' or disable mock mode")
                 return {}
         else:
+            # Only web scrape if no html_content and not mock
+            if not wiki_url:
+                logger.error("No wiki URL provided for web scraping")
+                return {}
+
             logger.info(f"Starting to scrape wiki page: {wiki_url}")
 
-            # Set headers to avoid 403 Forbidden errors
             headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.5',
+                'Connection': 'keep-alive'
             }
 
             logger.info(f"Sending request to Fandom at {time.time() - start_time:.2f} seconds...")
@@ -135,15 +149,19 @@ def extract_got_profile(
                 return {}
 
             html_content = response.text
+            logger.info(f"Received response with {len(html_content)} characters")
 
-        logger.info(f"Received response at {time.time() - start_time:.2f} seconds...")
+        # ✅ NOW parse the HTML (after getting it from one of the three sources)
+        logger.info(f"Parsing HTML at {time.time() - start_time:.2f} seconds...")
 
+        # **************************************************************
         # Parse HTML with BeautifulSoup
         soup = BeautifulSoup(html_content, 'html.parser')
 
         # Extract character name from title
         title_element = soup.find('h1', class_='page-header__title')
         character_name = title_element.get_text(strip=True) if title_element else "Unknown"
+        logger.info(f"Character name: {character_name}")
 
         # Extract main content from the article
         content_div = soup.find('div', class_='mw-parser-output')
@@ -155,7 +173,7 @@ def extract_got_profile(
         # Initialize data structure
         data = {
             "name": character_name,
-            "url": wiki_url,
+            "url": wiki_url if wiki_url else "Uploaded HTML",
             "sections": {}
         }
 
@@ -214,11 +232,14 @@ def extract_got_profile(
 
             if infobox_data:
                 data["infobox"] = infobox_data
+                logger.info(f"Extracted infobox with {len(infobox_data)} fields")
 
         # Clean empty sections
         data["sections"] = {k: v for k, v in data["sections"].items() if v}
+        # **************************************************************
 
         logger.info(f"Successfully extracted {len(data['sections'])} sections from wiki page")
+        logger.info(f"Total processing time: {time.time() - start_time:.2f} seconds")
         return data
 
     except FileNotFoundError:
@@ -226,4 +247,6 @@ def extract_got_profile(
         return {}
     except Exception as e:
         logger.error(f"Error in extract_got_profile: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
         return {}

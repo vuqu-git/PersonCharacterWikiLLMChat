@@ -40,6 +40,7 @@ def split_profile_data(profile_data: Dict[str, Any]) -> List:
         logger.error(f"Error in split_profile_data: {e}")
         return []
 
+
 def split_got_profile_data(profile_data: Dict[str, Any]) -> List:
     """Splits the Game of Thrones wiki data into nodes with section metadata.
 
