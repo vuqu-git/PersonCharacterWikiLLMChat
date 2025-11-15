@@ -5,8 +5,8 @@ import time
 import logging
 import argparse
 
-from modules.data_extraction import extract_got_profile
-from modules.data_processing import split_got_profile_data, create_vector_database, verify_embeddings
+from modules.data_extraction import extract_wiki_profile
+from modules.data_processing import split_wiki_profile_data, create_vector_database, verify_embeddings
 from modules.query_engine import generate_initial_facts, answer_user_query
 
 
@@ -22,7 +22,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def process_got_wiki(wiki_url, mock=True):
+def process_wiki(wiki_url, mock=True):
     """
     Processes a wiki URL, extracts character data, and interacts with the user.
 
@@ -32,14 +32,14 @@ def process_got_wiki(wiki_url, mock=True):
     """
     try:
         # Extract the wiki page data
-        profile_data = extract_got_profile(wiki_url, mock=mock)
+        profile_data = extract_wiki_profile(wiki_url, mock=mock)
 
         if not profile_data:
             logger.error("Failed to retrieve wiki data.")
             return
 
         # Split the data into nodes using wiki-specific splitter
-        nodes = split_got_profile_data(profile_data)
+        nodes = split_wiki_profile_data(profile_data)
 
         if not nodes:
             logger.error("Failed to process wiki data into nodes.")
@@ -117,7 +117,7 @@ def main():
     if use_mock and not wiki_url:
         wiki_url = "https://gameofthrones.fandom.com/wiki/Rhaenyra_Targaryen"
 
-    process_got_wiki(wiki_url, mock=use_mock)
+    process_wiki(wiki_url, mock=use_mock)
 
 
 if __name__ == "__main__":
@@ -126,10 +126,10 @@ if __name__ == "__main__":
 
 ## To test our CLI application, we can run it with various combinations of arguments:
 # 1. With a wiki URL:
-# python main_got_CLI.py --url https://gameofthrones.fandom.com/wiki/Jon_Snow
+# python main_wiki_CLI.py --url https://gameofthrones.fandom.com/wiki/Jon_Snow
 
 # 2. With mock data:
-# python main_got_CLI.py --mock
+# python main_wiki_CLI.py --mock
 
 # 3. Interactive mode (will prompt for URL):
-# python main_got_CLI.py
+# python main_wiki_CLI.py

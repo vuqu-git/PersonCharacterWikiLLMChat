@@ -6,9 +6,9 @@ import logging
 import uuid
 import gradio as gr
 
-from modules.data_extraction import extract_linkedin_profile, extract_got_profile
+from modules.data_extraction import extract_linkedin_profile, extract_wiki_profile
 from modules.data_processing import split_profile_data, create_vector_database, verify_embeddings, \
-    split_got_profile_data
+    split_wiki_profile_data
 from modules.query_engine import generate_initial_facts, answer_user_query
 import config
 
@@ -135,7 +135,7 @@ def process_profile(linkedin_url, api_key, use_mock):
         logger.error(f"Error in process_profile: {e}")
         return f"Error: {str(e)}", None
 
-def process_got_profile(wiki_url: str, use_mock: bool = False):
+def process_wiki_profile(wiki_url: str, use_mock: bool = False):
     """Process a wiki profile and generate initial facts.
 
     Args:
@@ -150,13 +150,13 @@ def process_got_profile(wiki_url: str, use_mock: bool = False):
             wiki_url = "https://gameofthrones.fandom.com/wiki/Rhaenyra_Targaryen"
 
         # Extract profile data from wiki
-        profile_data = extract_got_profile(wiki_url, mock=use_mock)
+        profile_data = extract_wiki_profile(wiki_url, mock=use_mock)
 
         if not profile_data:
             return "Failed to retrieve wiki data. Please check the URL.", None
 
         # Split data into nodes using wiki-specific splitter
-        nodes = split_got_profile_data(profile_data)
+        nodes = split_wiki_profile_data(profile_data)
 
         if not nodes:
             return "Failed to process wiki data into nodes.", None
@@ -177,7 +177,7 @@ def process_got_profile(wiki_url: str, use_mock: bool = False):
         return f"Wiki page processed successfully!\n\nHere are 3 interesting facts about this character:\n\n{facts}", session_id
 
     except Exception as e:
-        logger.error(f"Error in process_got_profile: {e}")
+        logger.error(f"Error in process_wiki_profile: {e}")
         return f"Error: {str(e)}", None
 
 

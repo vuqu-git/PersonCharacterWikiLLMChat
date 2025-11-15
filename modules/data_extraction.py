@@ -91,7 +91,7 @@ def extract_linkedin_profile(
 
 ##################################
 
-def extract_got_profile(
+def extract_wiki_profile(
         wiki_url: str = None,
         mock: bool = False,
         html_content: str = None  # NEW: Accept HTML content directly
@@ -117,14 +117,14 @@ def extract_got_profile(
             # ✅ DON'T parse yet - just store it
         elif mock:
             logger.info("Using mock data from a saved HTML file...")
-            mock_file_path = "mock_got_wiki.html"
+            mock_file_path = "mock_wiki.html"
             try:
                 with open(mock_file_path, "r", encoding="utf-8") as f:
                     html_content = f.read()
                 logger.info(f"Loaded mock HTML from {mock_file_path}")
             except FileNotFoundError:
                 logger.error(f"Mock file not found: {mock_file_path}")
-                logger.info("Please save a wiki page HTML to 'mock_got_wiki.html' or disable mock mode")
+                logger.info("Please save a wiki page HTML to 'mock_wiki.html' or disable mock mode")
                 return {}
         else:
             # Only web scrape if no html_content and not mock
@@ -243,10 +243,10 @@ def extract_got_profile(
         return data
 
     except FileNotFoundError:
-        logger.error("Mock HTML file not found. Please save a mock file as 'mock_got_wiki.html'")
+        logger.error("Mock HTML file not found. Please save a mock file as 'mock_wiki.html'")
         return {}
     except Exception as e:
-        logger.error(f"Error in extract_got_profile: {e}")
+        logger.error(f"Error in extract_wiki_profile: {e}")
         import traceback
         logger.error(traceback.format_exc())
         return {}

@@ -21,7 +21,7 @@ headers = {
 response = requests.get(url, headers=headers)
 
 if response.status_code == 200:
-    Path("mock_got_wiki.html").write_text(response.text, encoding="utf-8")
+    Path("mock_wiki.html").write_text(response.text, encoding="utf-8")
     print("✓ Saved successfully")
 else:
     print(f"✗ Status: {response.status_code}")

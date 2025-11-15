@@ -41,7 +41,7 @@ def split_profile_data(profile_data: Dict[str, Any]) -> List:
         return []
 
 
-def split_got_profile_data(profile_data: Dict[str, Any]) -> List:
+def split_wiki_profile_data(profile_data: Dict[str, Any]) -> List:
     """Splits the wiki data into nodes with section metadata.
 
     Args:
@@ -96,7 +96,7 @@ def split_got_profile_data(profile_data: Dict[str, Any]) -> List:
         return final_nodes
 
     except Exception as e:
-        logger.error(f"Error in split_got_profile_data: {e}")
+        logger.error(f"Error in split_wiki_profile_data: {e}")
         return []
 
 

@@ -5,8 +5,8 @@ import logging
 import uuid
 import gradio as gr
 
-from modules.data_extraction import extract_got_profile
-from modules.data_processing import split_got_profile_data, create_vector_database, verify_embeddings
+from modules.data_extraction import extract_wiki_profile
+from modules.data_processing import split_wiki_profile_data, create_vector_database, verify_embeddings
 from modules.query_engine import generate_initial_facts, answer_user_query
 
 # Set up logging
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 active_indices = {}
 
 
-def process_got_profile(wiki_url: str, use_mock: bool = False):
+def process_wiki_profile(wiki_url: str, use_mock: bool = False):
     """Process a wiki profile and generate initial facts.
 
     Args:
@@ -40,13 +40,13 @@ def process_got_profile(wiki_url: str, use_mock: bool = False):
             wiki_url = "https://gameofthrones.fandom.com/wiki/Rhaenyra_Targaryen"
 
         # Extract profile data from wiki
-        profile_data = extract_got_profile(wiki_url, mock=use_mock)
+        profile_data = extract_wiki_profile(wiki_url, mock=use_mock)
 
         if not profile_data:
             return "Failed to retrieve wiki data. Please check the URL.", None
 
         # Split data into nodes using wiki-specific splitter
-        nodes = split_got_profile_data(profile_data)
+        nodes = split_wiki_profile_data(profile_data)
 
         if not nodes:
             return "Failed to process wiki data into nodes.", None
@@ -74,11 +74,11 @@ def process_got_profile(wiki_url: str, use_mock: bool = False):
         return f"Wiki page processed successfully!\n\nHere are 3 interesting facts about this character:\n\n{facts}", session_id
 
     except Exception as e:
-        logger.error(f"Error in process_got_profile: {e}")
+        logger.error(f"Error in process_wiki_profile: {e}")
         return f"Error: {str(e)}", None
 
 
-def process_got_profile_from_file(html_file, wiki_url: str = ""):
+def process_wiki_profile_from_file(html_file, wiki_url: str = ""):
     """Process a wiki profile from uploaded HTML file.
 
     Args:
@@ -100,7 +100,7 @@ def process_got_profile_from_file(html_file, wiki_url: str = ""):
         logger.info(f"HTML file loaded, size: {len(html_content)} characters")
 
         # Extract profile data from the HTML content
-        profile_data = extract_got_profile(html_content=html_content)
+        profile_data = extract_wiki_profile(html_content=html_content)
 
         # Use the wiki_url (as metadata) if provided, otherwise leave blank
         if wiki_url:
@@ -110,7 +110,7 @@ def process_got_profile_from_file(html_file, wiki_url: str = ""):
             return "Failed to parse HTML file. Please ensure it's a valid wiki page.", None
 
         # Split data into nodes
-        nodes = split_got_profile_data(profile_data)
+        nodes = split_wiki_profile_data(profile_data)
 
         if not nodes:
             return "Failed to process wiki data into nodes.", None
@@ -137,7 +137,7 @@ def process_got_profile_from_file(html_file, wiki_url: str = ""):
         return f"HTML file processed successfully!\n\nHere are 3 interesting facts about this character:\n\n{facts}", session_id
 
     except Exception as e:
-        logger.error(f"Error in process_got_profile_from_file: {e}")
+        logger.error(f"Error in process_wiki_profile_from_file: {e}")
         import traceback
         logger.error(traceback.format_exc())
         return f"Error: {str(e)}", None
@@ -199,13 +199,13 @@ def create_gradio_interface():
 
     with gr.Blocks(title="Person and Character Wiki Bot") as demo:
         gr.Markdown("# Person and Character Wiki Bot")
-        gr.Markdown("Learn about persons and character and chat about their stories")
+        gr.Markdown("Learn about persons and characters and chat about their stories")
 
         gr.Markdown("""
         ### How to use:
         1. Go to the **Process Wiki Page** tab
-        2. Option 1: Upload a HTML file or Option 2: enter a person and character wiki URL (maybe 403 - bot/scraper protection) or use mock data
-        3. Click **Process ...** to analyze the persin or character
+        2. Option 1: Upload a HTML file or Option 2: Enter a person and character wiki URL (maybe 403 - bot/scraper protection) or use mock data
+        3. Click **Process ...** to analyze the person or character
         4. Go to the **Chat** tab to ask questions about the person or character
         ---
         """)
@@ -251,7 +251,7 @@ def create_gradio_interface():
                     )
                     use_mock = gr.Checkbox(
                         label="Use Mock Data",
-                        value=True,
+                        value=False,
                         info="Load from the saved default HTML file (no web scraping)"
                     )
 
@@ -266,13 +266,13 @@ def create_gradio_interface():
 
             # Connect both buttons to the same output components
             process_file_btn.click(
-                fn=process_got_profile_from_file,
+                fn=process_wiki_profile_from_file,
                 inputs=[html_file, wiki_url_optional],
                 outputs=[result_text, session_id]
             )
 
             process_btn.click(
-                fn=process_got_profile,
+                fn=process_wiki_profile,
                 inputs=[wiki_url, use_mock],
                 outputs=[result_text, session_id]
             )

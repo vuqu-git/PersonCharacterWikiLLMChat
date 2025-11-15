@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 # Centralize environment loading
-# !!! config.py is called/imported from parent folder (by app_got.py) !!!
+# !!! config.py is called/imported from parent folder (by app_wiki.py) !!!
 ENV_PATH = os.path.join(os.path.dirname(__file__), 'modules', '.env')
 load_dotenv(dotenv_path=ENV_PATH)
 
