@@ -42,7 +42,7 @@ def split_profile_data(profile_data: Dict[str, Any]) -> List:
 
 
 def split_got_profile_data(profile_data: Dict[str, Any]) -> List:
-    """Splits the Game of Thrones wiki data into nodes with section metadata.
+    """Splits the wiki data into nodes with section metadata.
 
     Args:
         profile_data: Wiki profile data dictionary with 'sections' and optional 'infobox'.

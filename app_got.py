@@ -1,4 +1,4 @@
-"""Gradio web interface for the Game of Thrones Wiki Bot."""
+"""Gradio web interface for the Person and Character Wiki Bot."""
 
 import sys
 import logging
@@ -25,10 +25,10 @@ active_indices = {}
 
 
 def process_got_profile(wiki_url: str, use_mock: bool = False):
-    """Process a Game of Thrones wiki profile and generate initial facts.
+    """Process a wiki profile and generate initial facts.
 
     Args:
-        wiki_url: Fandom wiki URL to process.
+        wiki_url: wiki URL to process.
         use_mock: Whether to use mock data from a saved HTML file.
 
     Returns:
@@ -79,7 +79,7 @@ def process_got_profile(wiki_url: str, use_mock: bool = False):
 
 
 def process_got_profile_from_file(html_file, wiki_url: str = ""):
-    """Process a Game of Thrones wiki profile from uploaded HTML file.
+    """Process a wiki profile from uploaded HTML file.
 
     Args:
         html_file: Uploaded HTML file object from Gradio.
@@ -107,7 +107,7 @@ def process_got_profile_from_file(html_file, wiki_url: str = ""):
             profile_data["url"] = wiki_url
 
         if not profile_data:
-            return "Failed to parse HTML file. Please ensure it's a valid Fandom wiki page.", None
+            return "Failed to parse HTML file. Please ensure it's a valid wiki page.", None
 
         # Split data into nodes
         nodes = split_got_profile_data(profile_data)
@@ -144,7 +144,7 @@ def process_got_profile_from_file(html_file, wiki_url: str = ""):
 
 
 def chat_with_character(session_id, user_query, chat_history):
-    """Chat about a processed Game of Thrones character.
+    """Chat about a (processed) person or character.
 
     Args:
         session_id: Session ID for this conversation.
@@ -195,18 +195,18 @@ def chat_with_character(session_id, user_query, chat_history):
 
 
 def create_gradio_interface():
-    """Create the Gradio interface for the Game of Thrones Wiki Bot."""
+    """Create the Gradio interface for the Person and Character Wiki Bot."""
 
-    with gr.Blocks(title="Game of Thrones Wiki Bot") as demo:
-        gr.Markdown("# Game of Thrones Wiki Bot")
-        gr.Markdown("Learn about Game of Thrones characters and chat about their stories")
+    with gr.Blocks(title="Person and Character Wiki Bot") as demo:
+        gr.Markdown("# Person and Character Wiki Bot")
+        gr.Markdown("Learn about persons and character and chat about their stories")
 
         gr.Markdown("""
         ### How to use:
         1. Go to the **Process Wiki Page** tab
-        2. Option 1: Upload a HTML file or Option 2: enter a Game of Thrones Fandom wiki URL (maybe 403 - bot/scraper protection) or use mock data
-        3. Click **Process ...** to analyze the character
-        4. Go to the **Chat** tab to ask questions about the character
+        2. Option 1: Upload a HTML file or Option 2: enter a person and character wiki URL (maybe 403 - bot/scraper protection) or use mock data
+        3. Click **Process ...** to analyze the persin or character
+        4. Go to the **Chat** tab to ask questions about the person or character
         ---
         """)
 
@@ -225,7 +225,7 @@ def create_gradio_interface():
                     )
                     wiki_url_optional = gr.Textbox(
                         label="Wiki URL (Optional)",
-                        placeholder="https://gameofthrones.fandom.com/wiki/Character_Name",
+                        placeholder="https://en.wikipedia.org/wiki/Spock",
                         info="Optional: Add the source URL for reference",
                         lines=1,
                         max_lines=1
@@ -234,18 +234,18 @@ def create_gradio_interface():
 
                 # Option 2: Right column
                 with gr.Column(scale=1):
-                    gr.Markdown("### Option 2: Use Mock Data or Web Scraping")
+                    gr.Markdown("### Option 2: Web Scraping or Use Mock Data")
 
                     gr.Markdown("**Example URLs:**")
                     gr.Markdown("""
-                    - https://gameofthrones.fandom.com/wiki/Jon_Snow
-                    - https://gameofthrones.fandom.com/wiki/Daenerys_Targaryen
+                    - https://en.wikipedia.org/wiki/Daenerys_Targaryen
+                    - https://en.wikipedia.org/wiki/Heinrich_Harrer
                     """)
 
                     wiki_url = gr.Textbox(
-                        label="Fandom Wiki URL",
-                        placeholder="https://gameofthrones.fandom.com/wiki/Character_Name",
-                        info="Enter a Game of Thrones Fandom wiki URL",
+                        label="Wiki URL",
+                        placeholder="https://en.wikipedia.org/wiki/Aloy",
+                        info="Enter a wiki URL about a person or character",
                         lines=1,
                         max_lines=1
                     )
@@ -278,7 +278,7 @@ def create_gradio_interface():
             )
 
         with gr.Tab("Chat"):
-            gr.Markdown("Ask questions about the Game of Thrones character")
+            gr.Markdown("Ask questions about the person or character")
 
             chatbot = gr.Chatbot(
                 height=500,
@@ -288,7 +288,7 @@ def create_gradio_interface():
 
             chat_input = gr.Textbox(
                 label="Ask a question about the character",
-                placeholder="What is this character's house allegiance?",
+                placeholder="What is this person's/character's passion?",
                 lines=1,
                 max_lines=1
             )

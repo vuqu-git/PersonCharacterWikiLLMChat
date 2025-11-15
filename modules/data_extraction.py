@@ -96,10 +96,10 @@ def extract_got_profile(
         mock: bool = False,
         html_content: str = None  # NEW: Accept HTML content directly
 ) -> Dict[str, Any]:
-    """Extract Game of Thrones wiki page content using web scraping.
+    """Extract wiki page content using web scraping.
 
     Args:
-        wiki_url: The Fandom wiki URL to scrape.
+        wiki_url: The wiki URL to scrape.
         mock: If True, loads mock data from a saved HTML file instead of scraping.
 
     Returns:
@@ -141,7 +141,7 @@ def extract_got_profile(
                 'Connection': 'keep-alive'
             }
 
-            logger.info(f"Sending request to Fandom at {time.time() - start_time:.2f} seconds...")
+            logger.info(f"Sending request to Wiki at {time.time() - start_time:.2f} seconds...")
             response = requests.get(wiki_url, headers=headers, timeout=30)
 
             if response.status_code != 200:

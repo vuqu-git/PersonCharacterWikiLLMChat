@@ -1,4 +1,4 @@
-"""Main script for running the Game of Thrones Wiki Bot."""
+"""Main script for running the Person and Character Wiki Bot."""
 
 import sys
 import time
@@ -24,10 +24,10 @@ logger = logging.getLogger(__name__)
 
 def process_got_wiki(wiki_url, mock=True):
     """
-    Processes a Game of Thrones wiki URL, extracts character data, and interacts with the user.
+    Processes a wiki URL, extracts character data, and interacts with the user.
 
     Args:
-        wiki_url: The Fandom wiki URL to scrape or load mock data from.
+        wiki_url: The wiki URL to scrape or load mock data from.
         mock: If True, loads mock data from a saved HTML file instead of web scraping.
     """
     try:
@@ -74,7 +74,7 @@ def chatbot_interface(index):
     Provides a simple chatbot interface for user interaction.
 
     Args:
-        index: VectorStoreIndex containing the Game of Thrones character data.
+        index: VectorStoreIndex containing the person/character data.
     """
     print("\nYou can now ask more questions about this character. Type 'exit', 'quit', or 'bye' to quit.")
 
@@ -94,12 +94,12 @@ def chatbot_interface(index):
 
 
 def main():
-    """Main function to run the Game of Thrones Wiki Bot."""
-    parser = argparse.ArgumentParser(description='Game of Thrones Wiki Bot - Character Analyzer')
+    """Main function to run the Wiki Bot."""
+    parser = argparse.ArgumentParser(description='Wiki Bot - Person and Character Analyzer')
     parser.add_argument(
         '--url',
         type=str,
-        help='Fandom wiki URL (e.g., https://gameofthrones.fandom.com/wiki/Rhaenyra_Targaryen)'
+        help='wiki URL (e.g., https://en.wikipedia.org/wiki/Sarah_Connor_(Terminator))'
     )
     parser.add_argument(
         '--mock',
@@ -110,7 +110,7 @@ def main():
     args = parser.parse_args()
 
     # Use command line arguments or prompt user for input
-    wiki_url = args.url or input("Enter Game of Thrones wiki URL (or press Enter to use mock data): ")
+    wiki_url = args.url or input("Enter wiki URL (or press Enter to use mock data): ")
     use_mock = args.mock or not wiki_url
 
     # Use a default URL for mock data if none provided
@@ -125,7 +125,7 @@ if __name__ == "__main__":
 
 
 ## To test our CLI application, we can run it with various combinations of arguments:
-# 1. With a Game of Thrones wiki URL:
+# 1. With a wiki URL:
 # python main_got_CLI.py --url https://gameofthrones.fandom.com/wiki/Jon_Snow
 
 # 2. With mock data:

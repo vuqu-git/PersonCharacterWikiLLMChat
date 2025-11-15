@@ -136,10 +136,10 @@ def process_profile(linkedin_url, api_key, use_mock):
         return f"Error: {str(e)}", None
 
 def process_got_profile(wiki_url: str, use_mock: bool = False):
-    """Process a Game of Thrones wiki profile and generate initial facts.
+    """Process a wiki profile and generate initial facts.
 
     Args:
-        wiki_url: Fandom wiki URL to process.
+        wiki_url: wiki URL to process.
         use_mock: Whether to use mock data from a saved HTML file.
 
     Returns:
