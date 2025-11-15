@@ -2,8 +2,10 @@
 
 import logging
 from pathlib import Path
-import config
-# -----------------------
+import config   # → config.py is fully executed here
+                # Any top-level code in config.py runs now
+                # Any variables/functions defined become available
+# --------------------------------------------
 import os
 from llama_index.llms.perplexity import Perplexity
 from dotenv import load_dotenv
@@ -47,15 +49,15 @@ def create_perplexity_llm(
     Returns:
         Perplexity LLM model with web search disabled.
     """
-    # Load .env file from the modules directory
-    env_path = Path(__file__).parent / ".env"
-    load_dotenv(dotenv_path=env_path)
-
-    # Retrieve API key
-    pplx_api_key = os.getenv("PPLX_API_KEY")
-
-    if not pplx_api_key:
-        raise ValueError("PPLX_API_KEY not found in .env file!")
+    # # Load .env file from the modules directory
+    # env_path = Path(__file__).parent / ".env"
+    # load_dotenv(dotenv_path=env_path)
+    #
+    # # Retrieve API key
+    # pplx_api_key = os.getenv("PPLX_API_KEY")
+    #
+    # if not pplx_api_key:
+    #     raise ValueError("PPLX_API_KEY not found in .env file!")
 
     # Create Perplexity LLM with sonar model and web search disabled
     additional_params = {
@@ -64,7 +66,8 @@ def create_perplexity_llm(
     }
 
     perplexity_llm = Perplexity(
-        api_key=pplx_api_key,
+        # api_key=pplx_api_key,
+        api_key=config.PPLX_API_KEY,
         model="sonar",
         temperature=temperature,
         max_tokens=max_new_tokens,

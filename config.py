@@ -1,16 +1,19 @@
 """Configuration settings for the Icebreaker Bot."""
 import os
 
-# IBM watsonx.ai settings
-WATSONX_URL = "https://us-south.ml.cloud.ibm.com"
-WATSONX_PROJECT_ID = "skills-network"
+from dotenv import load_dotenv
 
-# Model settings
-LLM_MODEL_ID = "ibm/granite-3-2-8b-instruct"
-EMBEDDING_MODEL_ID = "ibm/slate-125m-english-rtrvr-v2"
+# Centralize environment loading
+# !!! config.py is called/imported from parent folder (by app_got.py) !!!
+ENV_PATH = os.path.join(os.path.dirname(__file__), 'modules', '.env')
+load_dotenv(dotenv_path=ENV_PATH)
 
-# ProxyCurl API settings
-PROXYCURL_API_KEY = ""  # Replace with your API key
+# Perplexity API key loading
+PPLX_API_KEY = os.getenv("PPLX_API_KEY")
+
+# Optional: Add validation
+if not PPLX_API_KEY:
+    raise ValueError("PPLX_API_KEY must be set in .env file")
 
 # Mock data URL
 MOCK_DATA_URL = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/ZRe59Y_NJyn3hZgnF1iFYA/linkedin-profile-data.json"
@@ -37,7 +40,6 @@ INITIAL_FACTS_TEMPLATE = """
 You are an AI assistant that provides detailed answers based on the provided context.
 
 Context information is below:
-
 {context_str}
 
 Based on the context provided, list 3 interesting facts about this person's life.
@@ -49,7 +51,6 @@ USER_QUESTION_TEMPLATE = """
 You are an AI assistant that provides detailed answers to questions based on the provided context.
 
 Context information is below:
-
 {context_str}
 
 Question: {query_str}
