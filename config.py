@@ -3,13 +3,19 @@ import os
 
 from dotenv import load_dotenv
 
+# general remark in environ var. for deployment
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# set all configuration values that are loaded with os.getenv or from .env file (e.g. in the Render dashboard)
+# for your current config.py, it is: PPLX_API_KEY
+
+
 # Centralize environment loading
-# !!! config.py is called/imported from parent folder (by app_wiki.py) !!!
+# !!! entire config.py is called/imported from parent folder (by app_wiki.py) !!!
 ENV_PATH = os.path.join(os.path.dirname(__file__), 'modules', '.env')
-load_dotenv(dotenv_path=ENV_PATH)
+load_dotenv(dotenv_path=ENV_PATH) # local dev: looks for your local .env file and loads those values into environment variables
 
 # Perplexity API key loading
-PPLX_API_KEY = os.getenv("PPLX_API_KEY")
+PPLX_API_KEY = os.getenv("PPLX_API_KEY") # every time os.getenv("PPLX_API_KEY") is called, it fetches the value from the OS environment—set by either .env (locally), or by e.g. Render (in deployment)
 
 # Optional: Add validation
 if not PPLX_API_KEY:
