@@ -102,10 +102,11 @@ def process_wiki_profile_from_file(html_file, wiki_url: str = ""):
         # Extract profile data from the HTML content
         profile_data = extract_wiki_profile(html_content=html_content)
 
-        # Use the wiki_url (as metadata) if provided, otherwise leave blank
+        # Use the wiki_url (as metadata) in Option 1 if provided, otherwise leave blank
         if wiki_url:
-            profile_data["url"] = wiki_url
-
+            profile_data["url"] = wiki_url  # This tags the extracted character data (used in vector database, facts, and chats) with its origin, preserving context like "Data from https://en.wikipedia.org/wiki/Spock".
+                                            # This preserves the original wiki link in the extracted profile without needing live scraping, which is useful for the vector database or generated facts.
+                                            # This aids traceability.
         if not profile_data:
             return "Failed to parse HTML file. Please ensure it's a valid wiki page.", None
 
@@ -224,9 +225,9 @@ def create_gradio_interface():
                         file_count="single"
                     )
                     wiki_url_optional = gr.Textbox(
-                        label="Wiki URL (Optional)",
+                        label="Add Wiki URL (Optional) for metadata",
                         placeholder="https://en.wikipedia.org/wiki/Spock",
-                        info="Optional: Add the source URL for reference",
+                        info="When pre-downloaded HTML file is uploaded, this optional URL is added to the profile data (= profile dictionary that feeds into nodes and vector database, metadata-enriched wiki content before splitting into searchable chunks).",
                         lines=1,
                         max_lines=1
                     )
@@ -245,7 +246,7 @@ def create_gradio_interface():
                     wiki_url = gr.Textbox(
                         label="Wiki URL",
                         placeholder="https://en.wikipedia.org/wiki/Aloy",
-                        info="Enter a wiki URL about a person or character",
+                        info="Enter a wiki URL about a person or character (this will be scraped live to fetch the page content).",
                         lines=1,
                         max_lines=1
                     )
