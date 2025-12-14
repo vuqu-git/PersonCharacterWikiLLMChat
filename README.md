@@ -1,4 +1,4 @@
-# 🧑‍💻 Person and Character Wiki Bot
+# 🧑‍💻 Person and Character Wiki Bot with LLamaIndex
 
 A modular, full-stack RAG (Retrieval-Augmented Generation) assistant for exploring and chatting about Wikipedia or Fandom pages of fictional characters and real people.  
 Supports both file upload (offline) and online scraping, and adapts for any structured Wiki/biographical HTML.
